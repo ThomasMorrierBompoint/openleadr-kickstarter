@@ -1,0 +1,27 @@
+version: '3.9'
+
+services:
+  vtn-fast-api:
+    build:
+      context: ./
+      dockerfile: ./vtn-fast-api/Dockerfile
+    ports:
+      - '8000:8000'   # FastAPI
+      - '8080:8080'   # VTN Server
+    environment:
+      - ./.env
+    networks:
+      - openadr-net
+
+  ven:
+    build:
+      context: ./
+      dockerfile: ./ven/Dockerfile
+    depends_on:
+      - vtn-fast-api
+    networks:
+      - openadr-net
+
+networks:
+  openadr-net:
+    driver: bridge
