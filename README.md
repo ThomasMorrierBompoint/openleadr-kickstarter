@@ -3,8 +3,8 @@
 > This project is intended for testing and demonstration purposes only. It is not production-ready.
 > Several shortcuts were taken to keep the project lightweight while still showcasing as many features as possible.
 
-> **Disclaimer running the project locally works but the docker-compose setup is not working yet.**
-> I tested the docker network and both container can ping each other but the HTTP curl is blocked...
+> **Disclaimer running the project locally works, but the docker-compose setup is not working yet.**
+> I tested the docker network, and both containers can ping each other, but the HTTP curl is blocked...
 >
 > I get this error `ClientConnectorError: Cannot connect to host vtn:8080 ssl:default [Connect call failed ('172.21.0.2', 8080)]`
 >
@@ -97,6 +97,8 @@ accepts it.
 ## 2. 🚀 How to Run
 
 ### Using local environment (Ensure Python 3.7+)
+
+> Check out the `log` folder to compare your logs if they seem off...
 
 ```bash
 cd openleadr-kickstarter
