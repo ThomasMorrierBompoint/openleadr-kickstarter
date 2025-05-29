@@ -22,17 +22,15 @@ async def handle_event(event):
 
 # Hacky way to make sure the VTN server is up and running.
 # Should be replaced by something like a while health => wait than continue...
-# sleep(3)
-
-print(settings.ven)
+sleep(3)
 
 # Create a VEN and connect to the VTN
 client = OpenADRClient(
     ven_name=settings.ven["name"],
-    # ven_id=settings.ven["id"],
-    # vtn_url=f'{settings.vtn["location"]["origin"]}/OpenADR2/Simple/2.0b',
-    vtn_url='http://localhost:8080/OpenADR2/Simple/2.0b',
+    ven_id=settings.ven["id"],
+    vtn_url=f'{settings.ven["vtn_url"]}/OpenADR2/Simple/2.0b',
     debug=True,
+    check_hostname=False,  # Not sure if this is required or not but should probably be removed in production..
     disable_signature=True  # Not sure if this is required or not but should probably be removed in production..
 )
 

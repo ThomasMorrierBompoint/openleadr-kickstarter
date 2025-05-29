@@ -2,6 +2,8 @@ FROM python:3.12-slim
 
 WORKDIR /open-kick
 
+RUN apt update && apt install net-tools iputils-ping curl dnsutils -y
+
 COPY ./ven ./ven
 COPY ./local_lib ./local_lib
 COPY ./.env ./.env

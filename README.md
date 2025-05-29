@@ -1,15 +1,28 @@
-# openleadr-kickstarter
+## 🔌 OpenADR 2.0b & OpenLEADR (openleadr-python)
 
-Based on openleadr-python for learning purposes
+> This project is intended for testing and demonstration purposes only. It is not production-ready.
+> Several shortcuts were taken to keep the project lightweight while still showcasing as many features as possible.
 
-> **Note running the project locally works but the docker-compose is not working (probably a network miss configuration).**
+> **Disclaimer running the project locally works but the docker-compose setup is not working yet.**
+> I tested the docker network and both container can ping each other but the HTTP curl is blocked...
+>
+> I get this error `ClientConnectorError: Cannot connect to host vtn:8080 ssl:default [Connect call failed ('172.21.0.2', 8080)]`
+>
+> I guess the VTN server is trying to enforce HTTPS for some reason. I haven't tested with an SSL certificate yet...
 
-## 🔌 OpenADR 2.0b & OpenLEADR: Quick Primer for Devs
+```bash
+# VTN container: Check if the expected port is open and listening
+docker exec -it vtn netstat -tulpn
+# tcp        0      0 127.0.0.1:8080          0.0.0.0:*               LISTEN      1/python
 
-> This project is meant for testing purposes only not production ready. Some shorcut where made to make this project as
-> small as possible while providing has much feature has possible
+# VEN container: DNS resolution - ensure the VTN hostname is resolvable
+docker exec -it ven nslookup vtn
 
-### ✅ OpenADR Overview
+# VEN container: HTTP connectivity - test if VEN can reach VTN over HTTP
+docker exec -it ven curl http://172.21.0.2:8080
+```
+
+## ✅ OpenADR Overview
 
 OpenADR is a standard protocol that automates energy demand-response (DR) signals. It allows:
 
@@ -74,18 +87,44 @@ VEN responsibilities:
 | Log data                              | Plug in DB for telemetry                        |
 | Local testing                         | Docs / Script for testing                       |
 
-### 1. 🧠 Define the Use Case
+## 1. 🧠 Define the Use Case
 
 For learning/testing: let’s simulate a utility (VTN) broadcasting a demand reduction event to a building (VEN) that
 accepts it.
 
 ---
 
-### 2. 🚀 How to Run
+## 2. 🚀 How to Run
 
-Assuming Docker is already installed...
+### Using local environment (Ensure Python 3.7+)
 
 ```bash
+cd openleadr-kickstarter
+# python or python3 depending on your system path... usually python3 on macOS/Desbian like system
+python -m venv venv
+source venv/bin/activate
+cd vtn
+pip install -r requirements.txt
+
+```
+
+Open a new shell tab
+
+```bash
+cd openleadr-kickstarter
+# python or python3 depending on your system path... usually python3 on macOS/Desbian like system
+python -m venv venv
+source venv/bin/activate
+cd ven
+pip install -r requirements.txt
+```
+
+### Using Docker Compose (Currently not working)
+
+```bash
+# Not working on my Windows WSL setup and macOS not sure why
+# I guess the VTN server is trying to enforce HTTPS for some reason.
+# I haven't tested with an SSL certificate yet...
 docker compose up --build
 ```
 
@@ -110,6 +149,8 @@ It should do:
 ---
 
 ## 3. 🧪 Testing (VTN + VEN)
+
+To test your Docker Compose Network
 
 Make sure the VEN connects to VTN. Then:
 

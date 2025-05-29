@@ -1,0 +1,8 @@
+Running in DEBUG mode
+Performing request to http://vtn:8080/OpenADR2/Simple/2.0b/EiRegisterParty
+Could not connect to server with URL http://vtn:8080/OpenADR2/Simple/2.0b:
+ClientConnectorDNSError: Cannot connect to host vtn:8080 ssl:default [nodename nor servname provided, or not known]
+Performing request to http://vtn:8080/OpenADR2/Simple/2.0b/EiRegisterParty
+Could not connect to server with URL http://vtn:8080/OpenADR2/Simple/2.0b:
+ClientConnectorDNSError: Cannot connect to host vtn:8080 ssl:default [nodename nor servname provided, or not known]
+No RegistrationID received from the VTN, aborting.

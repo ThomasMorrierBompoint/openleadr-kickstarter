@@ -51,13 +51,14 @@ async def event_response_callback(ven_id, event_id, opt_type):
     print(f"VEN {ven_id} responded to Event {event_id} with: {opt_type}")
 
 
-# Hardcoded implementation normaly you would perform something like a DB call fetch the ven info...
+# Hardcoded implementation normally you would perform something like a DB call fetch the ven info...
 def ven_lookup(ven_id):
+    print('ven_lookup', ven_id)
     if ven_id == settings.ven['id']:
         return {
             'ven_id': settings.ven['id'],
             'ven_name': settings.ven['name'],
-            'fingerprint': 'A3:9F:57:2E:44:12:AB:45:78:3D:21:09:9E:FF:01:CD:78:2A:4C:33:15:6B:76:2E:98:5C:AE:57:67:AB:1D:F2',
+            'fingerprint': settings.ven['fingerprint'],
             'registration_id': settings.ven['registration_id']
         }
     else:
@@ -68,10 +69,11 @@ def ven_lookup(ven_id):
 server = OpenADRServer(
     vtn_id=settings.vtn['id'],
     http_port=settings.vtn['location']['port'],
+    # ven_lookup=ven_lookup,
     fingerprint_lookup=ven_lookup,
     # Possibly deprecated see https://openleadr.org/docs/server.html#things-you-should-implement
     verify_message_signatures=False,
-    # show_server_cert_domain=False
+    show_server_cert_domain=False
 )
 
 # Add the handler for client (VEN) registrations
