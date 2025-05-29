@@ -3,25 +3,6 @@
 > This project is intended for testing and demonstration purposes only. It is not production-ready.
 > Several shortcuts were taken to keep the project lightweight while still showcasing as many features as possible.
 
-> **Disclaimer running the project locally works, but the docker-compose setup is not working yet.**
-> I tested the docker network, and both containers can ping each other, but the HTTP curl is blocked...
->
-> I get this error `ClientConnectorError: Cannot connect to host vtn:8080 ssl:default [Connect call failed ('172.21.0.2', 8080)]`
->
-> I guess the VTN server is trying to enforce HTTPS for some reason. I haven't tested with an SSL certificate yet...
-
-```bash
-# VTN container: Check if the expected port is open and listening
-docker exec -it vtn netstat -tulpn
-# tcp        0      0 127.0.0.1:8080          0.0.0.0:*               LISTEN      1/python
-
-# VEN container: DNS resolution - ensure the VTN hostname is resolvable
-docker exec -it ven nslookup vtn
-
-# VEN container: HTTP connectivity - test if VEN can reach VTN over HTTP
-docker exec -it ven curl http://172.21.0.2:8080
-```
-
 ## ✅ OpenADR Overview
 
 OpenADR is a standard protocol that automates energy demand-response (DR) signals. It allows:
@@ -66,7 +47,7 @@ VEN responsibilities:
 ## ✅ OpenADR Concepts in Practice
 
 | Concept             | Implementation Point                        |
-| ------------------- | ------------------------------------------- |
+|---------------------|---------------------------------------------|
 | Party Registration  | `on_create_party_registration` handler      |
 | Events & Signals    | `add_event()` on VTN / `on_event` handler   |
 | Telemetry Reporting | `add_report()` on VEN                       |
@@ -176,6 +157,46 @@ Here's how to level up with OpenADR:
 
 ## For Dev installation
 
+To work on the `local_lib`
+
 ```bash
 pip install -e .
+```
+
+## ⚠️ Warning / Disclaimer
+
+> **Running the project locally works, but the docker-compose setup is not working yet.**
+> I tested the docker network, and both containers can ping each other, but the HTTP curl is blocked...
+>
+> I get this error
+`ClientConnectorError: Cannot connect to host vtn:8080 ssl:default [Connect call failed ('172.21.0.2', 8080)]`
+>
+> I guess the VTN server is trying to enforce HTTPS for some reason. I haven't tested with an SSL certificate yet...
+
+```bash
+# VTN container: Check if the expected port is open and listening
+docker exec -it vtn netstat -tulpn
+# tcp        0      0 127.0.0.1:8080          0.0.0.0:*               LISTEN      1/python
+
+# VEN container: DNS resolution - ensure the VTN hostname is resolvable
+docker exec -it ven nslookup vtn
+#Server:         127.0.0.11
+#Address:        127.0.0.11#53
+#
+#Non-authoritative answer:
+#Name:   vtn
+#Address: 172.21.0.2
+
+docker exec -it ven ping 172.21.0.2
+#64 bytes from 172.21.0.2: icmp_seq=1 ttl=64 time=0.153 ms
+
+docker exec -it ven ping vtn
+#64 bytes from vtn.openleadr-kickstarter_openadr-net (172.21.0.2): icmp_seq=1 ttl=64 time=0.125 ms
+
+# VEN container: HTTP connectivity - test if VEN can reach VTN over HTTP
+docker exec -it ven curl http://172.21.0.2:8080
+#curl: (7) Failed to connect to 172.21.0.2 port 8080 after 0 ms: Couldn't connect to server
+
+docker exec -it ven curl http://vtn:8080
+#curl: (7) Failed to connect to vtn port 8080 after 1 ms: Couldn't connect to server
 ```
