@@ -1,31 +1,20 @@
+# Workin in progress
 version: '3.9'
 
 services:
-  vtn-fast-api:
-    container_name: vtn
-    hostname: vtn
-    build:
-      context: ./
-      dockerfile: ./vtn-fast-api/Dockerfile
-    ports:
-      - "8000:8000" # FastAPI
-      - "8080:8080" # VTN Server
-    environment:
-      - ./.env
-    networks:
-      - openadr-net
-
-  ven:
-    container_name: ven
-    hostname: ven
-    build:
-      context: ./
-      dockerfile: ./ven/Dockerfile
-    depends_on:
-      - vtn-fast-api
-    networks:
-      - openadr-net
+    vtn-fast-api:
+        container_name: vtn
+        hostname: vtn
+        build:
+            context: .
+        ports:
+            - "8000:8000" # FastAPI
+            - "8080:8080" # VTN Server
+        environment:
+            - ./.env
+        networks:
+            - openadr-net
 
 networks:
-  openadr-net:
-    driver: bridge
+    openadr-net:
+        driver: bridge

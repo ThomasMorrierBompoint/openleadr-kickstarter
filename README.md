@@ -1,7 +1,11 @@
 ## 🔌 OpenADR 2.0b & OpenLEADR (openleadr-python)
 
-> This project is intended for testing and demonstration purposes only. It is not production-ready.
-> Several shortcuts were taken to keep the project lightweight while still showcasing as many features as possible.
+> I started this project to improve my Python skills and to learn more about OpenADR.
+>
+> This project is intended for testing and demonstration purposes only.
+>
+> Several shortcuts were taken to keep the project lightweight, also be aware that some features may not work as
+> intended.
 
 ## ✅ OpenADR Overview
 
@@ -82,32 +86,30 @@ accepts it.
 > Check out the `log` folder to compare your logs if they seem off...
 
 ```bash
+git clone git@github.com:ThomasMorrierBompoint/openleadr-kickstarter.git
 cd openleadr-kickstarter
-# python or python3 depending on your system path... usually python3 on macOS/Desbian like system
+
+# python or python3 depending on your system path... usually python3 on macOS/desbian like system
 python -m venv venv
 source venv/bin/activate
-cd vtn
 pip install -r requirements.txt
-
+python main.py
 ```
 
 Open a new shell tab
 
 ```bash
 cd openleadr-kickstarter
-# python or python3 depending on your system path... usually python3 on macOS/Desbian like system
+# python or python3 depending on your system path... usually python3 on macOS/desbian like system
 python -m venv venv
 source venv/bin/activate
 cd ven
 pip install -r requirements.txt
 ```
 
-### Using Docker Compose (Currently not working)
+### Using Docker Compose
 
 ```bash
-# Not working on my Windows WSL setup and macOS not sure why
-# I guess the VTN server is trying to enforce HTTPS for some reason.
-# I haven't tested with an SSL certificate yet...
 docker compose up --build
 ```
 
@@ -129,6 +131,8 @@ It should do:
 * VTN sending an event
 * VEN responding with "optIn"
 
+![img.png](img.png)
+
 ---
 
 ## 3. 🧪 Testing (VTN + VEN)
@@ -138,7 +142,13 @@ To test your Docker Compose Network
 Make sure the VEN connects to VTN. Then:
 
 ```bash
-curl -X POST http://localhost:8000/send_event \
+curl -X GET http://localhost:8000/ven/connect
+curl -X GET http://localhost:8000/ven/connected
+```
+
+```bash
+# Use response from /ven/registered to update send_event payload
+curl -X POST http://localhost:8000/event/send \
      -H "Content-Type: application/json" \
      -d '{"ven_id": "ven123", "event_id": "event002", "signal_level": 2}'
 ```
@@ -163,7 +173,7 @@ To work on the `local_lib`
 pip install -e .
 ```
 
-## ⚠️ Warning / Disclaimer
+## ⚠️ Warning / Disclaimer (OUTDATED only kept as reference)
 
 > **Running the project locally works, but the docker-compose setup is not working yet.**
 > I tested the docker network, and both containers can ping each other, but the HTTP curl is blocked...

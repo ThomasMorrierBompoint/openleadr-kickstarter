@@ -1,0 +1,14 @@
+.idea/
+
+__pycache__/
+/venv/
+/local_lib.egg-info/
+
+/local/
+
+LICENSE
+tests/
+.gitignore
+.editorconfig
+docker-compose.yml
+README.md

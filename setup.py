@@ -8,5 +8,6 @@ setup(
         'python-dotenv'
     ],
     author='Thomas Morrier',
+    author_email='thomasmorrier@gmail.com',
     description='Local reusable library',
 )

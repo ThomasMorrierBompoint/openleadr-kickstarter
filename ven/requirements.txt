@@ -1,6 +1,0 @@
-asyncio
-datetime
-openleadr
-pyOpenSSL==23.2.0
-
--e ../

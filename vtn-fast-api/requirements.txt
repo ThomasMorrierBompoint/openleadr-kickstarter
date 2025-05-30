@@ -1,9 +1,0 @@
-asyncio
-datetime
-fastapi
-openleadr
-pydantic
-uvicorn
-pyOpenSSL==23.2.0
-
--e ../
